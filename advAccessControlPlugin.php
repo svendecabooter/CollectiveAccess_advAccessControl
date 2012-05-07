@@ -7,36 +7,36 @@
  * ----------------------------------------------------------------------
  */
 
-	class advAccessControlPlugin extends BaseApplicationPlugin {
-		# -------------------------------------------------------
-		private $opo_config;
-		private $ops_plugin_path;
+  class advAccessControlPlugin extends BaseApplicationPlugin {
+    # -------------------------------------------------------
+    private $opo_config;
+    private $ops_plugin_path;
     private $opo_notification_manager;
-		# -------------------------------------------------------
-		public function __construct($ps_plugin_path) {
-			$this->ops_plugin_path = $ps_plugin_path;
-			$this->description = _t('Provides advanced access control features.');
-			parent::__construct();
-			$this->opo_config = Configuration::load($ps_plugin_path.'/conf/advAccessControl.conf');
-		}
-		# -------------------------------------------------------
-		/**
-		 * Override checkStatus() to return true - the advAccessControlPlugin plugin always initializes ok
-		 */
-		public function checkStatus() {
-			return array(
-				'description' => $this->getDescription(),
-				'errors' => array(),
-				'warnings' => array(),
-				'available' => ((bool)$this->opo_config->get('enabled'))
-			);
-		}
-		# -------------------------------------------------------
-		/**
-		 * Implements hookEditItem - react on edit pages of items
-		 */
-		public function hookEditItem(&$pa_params) {
-			$t_subject = $pa_params['instance'];	// get instance from params
+    # -------------------------------------------------------
+    public function __construct($ps_plugin_path) {
+      $this->ops_plugin_path = $ps_plugin_path;
+      $this->description = _t('Provides advanced access control features.');
+      parent::__construct();
+      $this->opo_config = Configuration::load($ps_plugin_path.'/conf/advAccessControl.conf');
+    }
+    # -------------------------------------------------------
+    /**
+     * Override checkStatus() to return true - the advAccessControlPlugin plugin always initializes ok
+     */
+    public function checkStatus() {
+      return array(
+        'description' => $this->getDescription(),
+        'errors' => array(),
+        'warnings' => array(),
+        'available' => ((bool)$this->opo_config->get('enabled'))
+      );
+    }
+    # -------------------------------------------------------
+    /**
+    * Implements hookEditItem - react on edit pages of items
+    */
+    public function hookEditItem(&$pa_params) {
+      $t_subject = $pa_params['instance'];  // get instance from params
       $vn_id = $t_subject->getPrimaryKey();
       $table_name = $pa_params['table_name'];
       $access = TRUE;
@@ -67,25 +67,25 @@
       }
 
     }
-		# -------------------------------------------------------
-		/**
-		 * Get plugin user actions
-		 */
-		public function hookGetRoleActionList($pa_role_list) {
+    # -------------------------------------------------------
+    /**
+     * Get plugin user actions
+     */
+    public function hookGetRoleActionList($pa_role_list) {
       $pa_role_list['plugin_advAccessControl'] = array(
         'label' => _t('Advanced access control'),
         'description' => _t('Actions for the advanced access control plugin'),
         'actions' => advAccessControlPlugin::getRoleActionList(),
       );
       return $pa_role_list;
-		}
+    }
     # -------------------------------------------------------
     static public function getRoleActionList() {
-			return array(
-				'can_edit_all' => array(
-					'label' => _t('Edit all content'),
-					'description' => _t('Can edit all content, not just own content.')
-				),
+      return array(
+        'can_edit_all' => array(
+          'label' => _t('Edit all content'),
+          'description' => _t('Can edit all content, not just own content.')
+        ),
         'can_edit_all_ca_objects' => array(
           'label' => _t('Edit all objects'),
           'description' => _t('Can edit all objects, not just own objects.'),
@@ -134,7 +134,7 @@
           'label' => _t('Edit all tour stops'),
           'description' => _t('Can edit all tour stops, not just own tour stops.'),
         ),
-			);
+      );
     }
-		# -------------------------------------------------------
-	}
+    # -------------------------------------------------------
+  }

@@ -42,6 +42,16 @@
       $access = TRUE;
       $o_req = $this->getRequest();
 
+      $primary_types_to_check = array('ca_objects', 'ca_entities', 'ca_object_representations',
+                                      'ca_object_lots', 'ca_places', 'ca_occurrences', 'ca_collections',
+                                      'ca_storage_locations', 'ca_loans', 'ca_movements', 'ca_tours',
+                                      'ca_tour_stops',
+                                      );
+      // only check primary item types that are explicitly declared above, to avoid unwanted problems
+      if (!in_array($table_name, $primary_types_to_check)) {
+        return;
+      }
+
       // Check if user has access to edit this item
       if ($vn_id) { // Only check on existing objects
         // Check if we can fetch the user, and if the user is allowed to bypass this check
@@ -65,7 +75,6 @@
           }
         }
       }
-
     }
     # -------------------------------------------------------
     /**
